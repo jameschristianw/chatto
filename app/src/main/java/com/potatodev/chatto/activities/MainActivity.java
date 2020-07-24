@@ -1,5 +1,6 @@
 package com.potatodev.chatto.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +15,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.potatodev.chatto.R;
 import com.potatodev.chatto.preferences.SPreferences;
 
@@ -63,19 +69,7 @@ public class MainActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String password = edtPassword.getText().toString();
-                if (password.equals("a")) {
-                    SharedPreferences auth = getSharedPreferences(SPreferences.getPreferenceFilename(), SPreferences.getPreferenceMode());
-                    SharedPreferences.Editor editor = auth.edit();
-                    editor.putBoolean(SPreferences.getKeyIsAuth(), true);
-                    editor.putString(SPreferences.getKeyPass(), password);
-                    editor.apply();
-
-                    startActivity(new Intent(MainActivity.this, StartActivity.class));
-                    finish();
-                } else {
-                    showToast("Wrong password!", Toast.LENGTH_LONG);
-                }
+                checkPassword();
             }
         });
 
@@ -92,6 +86,40 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 passwordDialog.show();
+            }
+        });
+    }
+
+    // Checking password and move activity if needed
+    public void checkPassword() {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        DocumentReference reference = firestore.collection("authPassword").document("7Y0Hc1V00Mwfp0Ygmzqe");
+        reference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot snapshot = task.getResult();
+                if (snapshot.exists()){
+                    String input = edtPassword.getText().toString();
+                    String pass = (String) snapshot.get("currentPassword");
+
+                    if (input.equals(pass)) { // Correct password
+                        String password = edtPassword.getText().toString();
+
+                        // Add it to SharedPreferences
+                        // Password resets every monday
+                        SharedPreferences auth = getSharedPreferences(SPreferences.getPreferenceFilename(), SPreferences.getPreferenceMode());
+                        SharedPreferences.Editor editor = auth.edit();
+                        editor.putBoolean(SPreferences.getKeyIsAuth(), true);
+                        editor.putString(SPreferences.getKeyPass(), password);
+                        editor.apply();
+
+                        showToast("Welcome back!", Toast.LENGTH_LONG);
+                        startActivity(new Intent(MainActivity.this, StartActivity.class));
+                        finish();
+                    } else { // Wrong password
+                        showToast("Wrong password!", Toast.LENGTH_LONG);
+                    }
+                }
             }
         });
     }
