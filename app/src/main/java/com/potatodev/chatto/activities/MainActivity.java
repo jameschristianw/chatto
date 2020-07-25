@@ -1,6 +1,7 @@
 package com.potatodev.chatto.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,7 +9,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -39,6 +43,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         context = this;
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setElevation(0);
+        actionBar.setBackgroundDrawable(new ColorDrawable(0x00ffffff));
+//        int titleId = getResources().getIdentifier("action_bar_title", "id", "android");
+//        TextView tvTitle = findViewById(titleId);
+//        TypedValue value = new TypedValue();
+//        Resources.Theme theme = context.getTheme();
+//        theme.resolveAttribute(R.style.AppThemeNoActionBar, value, true);
+//        int color = value.data;
+//        tvTitle.setTextColor(color);
+
 
         initializeAlertDialog();
         initializeViews();
