@@ -2,6 +2,7 @@ package com.potatodev.chatto.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,7 +23,8 @@ public class StartActivity extends AppCompatActivity {
 
     Button btnLogout;
     ImageView imgMenu, imgProfPic;
-    TextView tvStartName;
+    TextView tvStartName, tvEmptyList;
+    RecyclerView rvFriendList;
 
     SharedPreferences preferences;
 
@@ -45,6 +47,11 @@ public class StartActivity extends AppCompatActivity {
         tvStartName = findViewById(R.id.tvStartName);
         preferences = getSharedPreferences(SPreferences.getPreferenceFilename(), SPreferences.getPreferenceMode());
         tvStartName.setText(preferences.getString(SPreferences.getKeyFullname(), "N/A"));
+
+        tvEmptyList = findViewById(R.id.tvEmptyList);
+
+        rvFriendList = findViewById(R.id.rvFriendList);
+        rvFriendList.setVisibility(View.GONE);
 
         btnLogout = findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(new View.OnClickListener() {
