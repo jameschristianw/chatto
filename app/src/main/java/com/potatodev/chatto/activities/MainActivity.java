@@ -140,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
                         editor.putBoolean(SPreferences.getKeyIsAuth(), true);
                         editor.putString(SPreferences.getKeyPass(), password);
                         editor.putString(SPreferences.getKeyUsername(), username);
+                        editor.putString(SPreferences.getKeyFullname(), name);
                         editor.apply();
 
                         Map<String, Object> newUser = new HashMap<>();

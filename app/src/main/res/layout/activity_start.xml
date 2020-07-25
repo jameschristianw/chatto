@@ -7,21 +7,54 @@
     android:orientation="vertical"
     tools:context=".activities.StartActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:layout_margin="8dp"
-        android:text="You are currently in StartActivity"
-        />
+        >
 
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:backgroundTint="@color/colorPrimary"
-        android:text="@string/menu_logout"
-        android:textColor="@android:color/white"
-        />
+        <ImageView
+            android:id="@+id/imgProfPic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_round_person_80"
+            />
+
+        <TextView
+            android:id="@+id/tvStartName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="You are currently in StartActivity"
+            android:ellipsize="end"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:layout_weight="1"
+            />
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="@string/menu_logout"
+            android:textColor="@android:color/white"
+            android:visibility="gone"
+            />
+
+        <ImageView
+            android:id="@+id/imgMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_more_vert_24"
+            android:visibility="gone"
+            />
+
+    </LinearLayout>
+
+
+
 
 </LinearLayout>

@@ -11,6 +11,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.potatodev.chatto.R;
@@ -19,6 +21,10 @@ import com.potatodev.chatto.preferences.SPreferences;
 public class StartActivity extends AppCompatActivity {
 
     Button btnLogout;
+    ImageView imgMenu, imgProfPic;
+    TextView tvStartName;
+
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +36,16 @@ public class StartActivity extends AppCompatActivity {
 
     // Function to initialize views in the activity and its logic if available
     public void initializeViews(){
+        getSupportActionBar().setTitle("Home");
+        getSupportActionBar().setElevation(0);
+
+        imgMenu = findViewById(R.id.imgMenu);
+        imgProfPic = findViewById(R.id.imgProfPic);
+
+        tvStartName = findViewById(R.id.tvStartName);
+        preferences = getSharedPreferences(SPreferences.getPreferenceFilename(), SPreferences.getPreferenceMode());
+        tvStartName.setText(preferences.getString(SPreferences.getKeyFullname(), "N/A"));
+
         btnLogout = findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
