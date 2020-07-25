@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Chatto</string>
+    <string name="created_by">Created by Ordinary Potato</string>
+    <string name="copyright">Copyright © 2020 James Christian Wira</string>
+    <string name="cd_app_logo">App Logo</string>
+    <string name="menu_about_app">About App</string>
+    <string name="menu_exit">Exit</string>
+    <string name="menu_logout">Logout</string>
+    <string name="edt_password_hint">Password</string>
+    <string name="btn_submit">Submit</string>
+    <string name="tv_help_main">Why password is needed?</string>
+    <string name="tv_password_label_main">Before you start, please enter the password given</string>
+    <string name="cd_lock_logo">Lock logo</string>
 </resources>

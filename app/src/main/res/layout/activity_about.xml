@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_round_chat_128"
             android:tint="@android:color/white"
-            />
+            android:contentDescription="@string/cd_app_logo" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:text="Created by Ordinary Potato"
+            android:text="@string/created_by"
             android:textColor="@android:color/white"
             android:textSize="14sp"
             />
@@ -69,9 +69,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Copyright © 2020 James Christian Wira"
+            android:text="@string/copyright"
             android:textColor="@android:color/white"
-            android:textSize="10sp"
+            android:textSize="12sp"
             />
     </LinearLayout>
 

@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:backgroundTint="@color/colorPrimary"
-        android:text="Logout"
+        android:text="@string/menu_logout"
         android:textColor="@android:color/white"
         />
 

@@ -14,13 +14,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/tvPasswordLabel"
-        />
+        android:contentDescription="@string/cd_lock_logo" />
 
     <TextView
         android:id="@+id/tvPasswordLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Before you start, please enter the password given"
+        android:text="@string/tv_password_label_main"
         android:textSize="18sp"
         android:layout_margin="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:layout_margin="8dp"
-        android:hint="Password"
+        android:hint="@string/edt_password_hint"
         app:layout_constraintTop_toBottomOf="@id/tvPasswordLabel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,10 +51,10 @@
         >
         <TextView
             android:id="@+id/tvWhyPassword"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Why password is needed?"
-            android:textSize="10sp"
+            android:text="@string/tv_help_main"
+            android:textSize="12sp"
             android:layout_gravity="center"
             android:layout_weight="1"
             />
@@ -63,7 +63,7 @@
             android:id="@+id/btnSubmit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Submit"
+            android:text="@string/btn_submit"
             android:textColor="@android:color/white"
             android:backgroundTint="@color/colorPrimary"
             />
