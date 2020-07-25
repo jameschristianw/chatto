@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -30,11 +31,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.potatodev.chatto.R;
 import com.potatodev.chatto.preferences.SPreferences;
 
+import java.sql.Array;
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
 
     TextView tvWhyPassword;
     Button btnSubmit;
-    EditText edtPassword;
+    EditText edtPassword, edtUsername, edtName;
     Context context;
 
     @Override
@@ -83,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
     public void initializeViews(){
         tvWhyPassword = findViewById(R.id.tvWhyPassword);
         edtPassword = findViewById(R.id.edtPassword);
+        edtUsername = findViewById(R.id.edtUsername);
+        edtName = findViewById(R.id.edtName);
         btnSubmit = findViewById(R.id.btnSubmit);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Checking password and move activity if needed
     public void checkPassword() {
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         DocumentReference reference = firestore.collection("authPassword").document("7Y0Hc1V00Mwfp0Ygmzqe");
         reference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -119,6 +126,8 @@ public class MainActivity extends AppCompatActivity {
                 DocumentSnapshot snapshot = task.getResult();
                 if (snapshot.exists()){
                     String input = edtPassword.getText().toString();
+                    String username = edtUsername.getText().toString();
+                    String name = edtName.getText().toString();
                     String pass = (String) snapshot.get("currentPassword");
 
                     if (input.equals(pass)) { // Correct password
@@ -130,11 +139,21 @@ public class MainActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = auth.edit();
                         editor.putBoolean(SPreferences.getKeyIsAuth(), true);
                         editor.putString(SPreferences.getKeyPass(), password);
+                        editor.putString(SPreferences.getKeyUsername(), username);
                         editor.apply();
 
-                        showToast("Welcome!", Toast.LENGTH_LONG);
-                        startActivity(new Intent(MainActivity.this, StartActivity.class));
-                        finish();
+                        Map<String, Object> newUser = new HashMap<>();
+                        newUser.put("name", name);
+
+                        firestore.collection("users").document(username).set(newUser).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                showToast("Welcome!", Toast.LENGTH_LONG);
+                                startActivity(new Intent(MainActivity.this, StartActivity.class));
+                                finish();
+                            }
+                        });
+
                     } else { // Wrong password
                         showToast("Wrong password!", Toast.LENGTH_LONG);
                     }

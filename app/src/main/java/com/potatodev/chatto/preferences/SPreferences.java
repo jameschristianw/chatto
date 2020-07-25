@@ -7,6 +7,7 @@ public class SPreferences {
     private static final int PREFERENCE_MODE = Context.MODE_PRIVATE;
     private static final String KEY_IS_AUTH = "AUTH";
     private static final String KEY_PASS = "PASS";
+    private static final String KEY_USERNAME = "USERNAME";
 
     public static String getPreferenceFilename() {
         return PREFERENCE_FILENAME;
@@ -22,5 +23,9 @@ public class SPreferences {
 
     public static String getKeyPass() {
         return KEY_PASS;
+    }
+
+    public static String getKeyUsername() {
+        return KEY_USERNAME;
     }
 }
