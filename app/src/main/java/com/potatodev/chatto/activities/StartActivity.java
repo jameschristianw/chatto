@@ -49,7 +49,7 @@ public class StartActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
+        inflater.inflate(R.menu.start, menu);
 
         return true;
     }
@@ -58,7 +58,7 @@ public class StartActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menuAboutApp:
-                showToast("About App clicked", Toast.LENGTH_LONG);
+                startActivity(new Intent(StartActivity.this, AboutActivity.class));
                 return true;
 
             case R.id.menuLogout:
@@ -72,6 +72,10 @@ public class StartActivity extends AppCompatActivity {
                 startActivity(new Intent(StartActivity.this, SplashScreenActivity.class));
                 finish();
 
+                return true;
+
+            case R.id.menuExit:
+                finish();
                 return true;
 
             default:

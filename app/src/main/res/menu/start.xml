@@ -5,6 +5,11 @@
         android:icon="@drawable/ic_round_help_24"
         />
 
+    <item android:id="@+id/menuLogout"
+        android:title="Logout"
+        android:icon="@drawable/ic_baseline_logout_24"
+        />
+
     <item android:id="@+id/menuExit"
         android:title="Exit"
         android:icon="@drawable/ic_round_help_24"
