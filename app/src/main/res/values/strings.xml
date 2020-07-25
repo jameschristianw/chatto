@@ -9,6 +9,8 @@
     <string name="edt_password_hint">Password</string>
     <string name="btn_submit">Submit</string>
     <string name="tv_help_main">Why password is needed?</string>
-    <string name="tv_password_label_main">Before you start, please enter the password given</string>
+    <string name="tv_password_label_main">Enter password given</string>
+    <string name="tv_username_label_main">Create your own username</string>
     <string name="cd_lock_logo">Lock logo</string>
+    <string name="edt_username_hint">Username</string>
 </resources>
