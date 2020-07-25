@@ -68,7 +68,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        showToast("Your current password doesn't match. Please the password to the developer", Toast.LENGTH_LONG);
+                                        showToast("Please enter new password", Toast.LENGTH_LONG);
                                     }
                                 });
                                 startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));

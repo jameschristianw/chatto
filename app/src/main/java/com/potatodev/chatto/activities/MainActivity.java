@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 AlertDialog.Builder passwordDialog = new AlertDialog.Builder(context);
                 passwordDialog.setTitle("Why you may ask?");
-                passwordDialog.setMessage("You might be wondering why this app need password, right? This app use Google Firebase to temporarily store the chat. So to avoid reaching the limit allowed, before needed to pay, and avoiding this app to be used for malicious intent, a password is needed.");
+                passwordDialog.setMessage("You might be wondering why this app need password, right? This app use Google Firebase to temporarily store the chat. So to avoid reaching the limit allowed, before needed to pay, and avoiding this app to be used for malicious intent, a password is needed. Password is changed every Monday.");
                 passwordDialog.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                         editor.putString(SPreferences.getKeyPass(), password);
                         editor.apply();
 
-                        showToast("Welcome back!", Toast.LENGTH_LONG);
+                        showToast("Welcome!", Toast.LENGTH_LONG);
                         startActivity(new Intent(MainActivity.this, StartActivity.class));
                         finish();
                     } else { // Wrong password
