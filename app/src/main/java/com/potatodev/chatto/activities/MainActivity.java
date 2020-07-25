@@ -31,7 +31,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.potatodev.chatto.R;
 import com.potatodev.chatto.preferences.SPreferences;
 
-import java.sql.Array;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,14 +51,6 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setElevation(0);
         actionBar.setBackgroundDrawable(new ColorDrawable(0x00ffffff));
-//        int titleId = getResources().getIdentifier("action_bar_title", "id", "android");
-//        TextView tvTitle = findViewById(titleId);
-//        TypedValue value = new TypedValue();
-//        Resources.Theme theme = context.getTheme();
-//        theme.resolveAttribute(R.style.AppThemeNoActionBar, value, true);
-//        int color = value.data;
-//        tvTitle.setTextColor(color);
-
 
         initializeAlertDialog();
         initializeViews();
@@ -125,36 +116,33 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 DocumentSnapshot snapshot = task.getResult();
                 if (snapshot.exists()){
-                    String input = edtPassword.getText().toString();
-                    String username = edtUsername.getText().toString();
-                    String name = edtName.getText().toString();
+                    final String input = edtPassword.getText().toString();
+                    final String username = edtUsername.getText().toString();
+                    final String name = edtName.getText().toString();
                     String pass = (String) snapshot.get("currentPassword");
 
                     if (input.equals(pass)) { // Correct password
-                        String password = edtPassword.getText().toString();
+                        final String password = edtPassword.getText().toString();
 
-                        // Add it to SharedPreferences
-                        // Password resets every monday
-                        SharedPreferences auth = getSharedPreferences(SPreferences.getPreferenceFilename(), SPreferences.getPreferenceMode());
-                        SharedPreferences.Editor editor = auth.edit();
-                        editor.putBoolean(SPreferences.getKeyIsAuth(), true);
-                        editor.putString(SPreferences.getKeyPass(), password);
-                        editor.putString(SPreferences.getKeyUsername(), username);
-                        editor.putString(SPreferences.getKeyFullname(), name);
-                        editor.apply();
-
-                        Map<String, Object> newUser = new HashMap<>();
-                        newUser.put("name", name);
-
-                        firestore.collection("users").document(username).set(newUser).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        firestore.collection("users").document(username).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
-                            public void onSuccess(Void aVoid) {
-                                showToast("Welcome!", Toast.LENGTH_LONG);
-                                startActivity(new Intent(MainActivity.this, StartActivity.class));
-                                finish();
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                if (documentSnapshot.exists()){
+                                    setSharedPref(username, password);
+
+                                    showToast("Welcome back!", Toast.LENGTH_LONG);
+                                    startActivity(new Intent(MainActivity.this, StartActivity.class));
+                                    finish();
+                                } else {
+                                    Intent intent = new Intent(MainActivity.this, CreateAccountActivity.class);
+                                    intent.putExtra(SPreferences.getKeyUsername(), username);
+                                    intent.putExtra(SPreferences.getKeyPass(), password);
+
+                                    startActivity(intent);
+                                    finish();
+                                }
                             }
                         });
-
                     } else { // Wrong password
                         showToast("Wrong password!", Toast.LENGTH_LONG);
                     }
@@ -185,6 +173,15 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return true;
         }
+    }
+
+    public void setSharedPref(String username, String password){
+        SharedPreferences auth = getSharedPreferences(SPreferences.getPreferenceFilename(), SPreferences.getPreferenceMode());
+        SharedPreferences.Editor editor = auth.edit();
+        editor.putBoolean(SPreferences.getKeyIsAuth(), true);
+        editor.putString(SPreferences.getKeyPass(), password);
+        editor.putString(SPreferences.getKeyUsername(), username);
+        editor.apply();
     }
 
     // Just to show toast. A solution to shorten it, right?
