@@ -56,6 +56,12 @@ public class StartActivity extends AppCompatActivity {
         getSupportActionBar().setElevation(0);
 
         imgProfPic = findViewById(R.id.imgProfPic);
+        imgProfPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showToast("This feature is not implemented yet", Toast.LENGTH_SHORT);
+            }
+        });
 
         tvStartName = findViewById(R.id.tvStartName);
         tvStartName.setText(preferences.getString(SPreferences.getKeyFullname(), "N/A"));
@@ -93,6 +99,10 @@ public class StartActivity extends AppCompatActivity {
                 startActivity(new Intent(StartActivity.this, SplashScreenActivity.class));
                 finish();
 
+                return true;
+
+            case R.id.menuAddFriend:
+                startActivity(new Intent(StartActivity.this, AddFriendActivity.class));
                 return true;
 
             case R.id.menuExit:

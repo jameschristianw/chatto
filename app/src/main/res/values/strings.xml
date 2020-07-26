@@ -15,4 +15,8 @@
     <string name="edt_username_hint">Username</string>
     <string name="tv_name_label_main">Name</string>
     <string name="edt_name_hint">Fullname</string>
+    <string name="menu_add_friend">Add Friend</string>
+    <string name="btn_search">Search</string>
+    <string name="tv_find_username">Find Username</string>
+    <string name="btn_add_friend">Add Friend</string>
 </resources>

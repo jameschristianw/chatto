@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="8dp"
+    tools:context=".activities.AddFriendActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_find_username"
+        android:textSize="18sp"
+        android:textColor="@color/colorPrimary"
+        />
+
+    <EditText
+        android:id="@+id/edtUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        />
+
+    <Button
+        android:id="@+id/btnSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="@string/btn_search"
+        android:textColor="@android:color/white"
+        android:layout_gravity="end"
+        />
+
+
+
+    <LinearLayout
+        android:id="@+id/llProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llSearchResult"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+
+        <ImageView
+            android:id="@+id/imgSearchPPResult"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:src="@drawable/ic_round_person_80"
+            />
+
+        <TextView
+            android:id="@+id/tvSearchNameResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Search name result"
+            />
+
+        <Button
+            android:id="@+id/btnAddFriend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
+            android:text="@string/btn_add_friend"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>
