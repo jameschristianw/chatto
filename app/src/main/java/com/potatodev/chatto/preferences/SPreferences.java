@@ -9,6 +9,7 @@ public class SPreferences {
     private static final String KEY_PASS = "PASS";
     private static final String KEY_USERNAME = "USERNAME";
     private static final String KEY_FULLNAME = "FULLNAME";
+    private static final String KEY_FRIENDS_COUNT = "FRIENDS_COUNT";
 
     public static String getPreferenceFilename() {
         return PREFERENCE_FILENAME;
@@ -32,5 +33,9 @@ public class SPreferences {
 
     public static String getKeyFullname() {
         return KEY_FULLNAME;
+    }
+
+    public static String getKeyFriendsCount() {
+        return KEY_FRIENDS_COUNT;
     }
 }

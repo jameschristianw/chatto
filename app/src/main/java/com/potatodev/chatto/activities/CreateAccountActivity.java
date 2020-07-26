@@ -39,9 +39,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent bundle = getIntent();
-                final String username = bundle.getStringExtra(SPreferences.getKeyUsername());
-                final String password = bundle.getStringExtra(SPreferences.getKeyPass());
+                SharedPreferences preferences = getSharedPreferences(SPreferences.getPreferenceFilename(), SPreferences.getPreferenceMode());
+                final String username = preferences.getString(SPreferences.getKeyUsername(), "");
                 fullname = edtFullname.getText().toString();
 
                 final Map<String, Object> newUser = new HashMap<>();
@@ -52,8 +51,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         // Add it to SharedPreferences
-                        // Password resets every monday
-                        setSharedPref(username, fullname, password);
+                        setSharedPref(fullname, 0);
 
                         showToast("Welcome!", Toast.LENGTH_LONG);
                         startActivity(new Intent(CreateAccountActivity.this, StartActivity.class));
@@ -71,6 +69,15 @@ public class CreateAccountActivity extends AppCompatActivity {
         editor.putString(SPreferences.getKeyPass(), password);
         editor.putString(SPreferences.getKeyUsername(), username);
         editor.putString(SPreferences.getKeyFullname(), fullname);
+        editor.apply();
+    }
+
+    public void setSharedPref(String fullname, long friendsCount){
+        SharedPreferences auth = getSharedPreferences(SPreferences.getPreferenceFilename(), SPreferences.getPreferenceMode());
+        SharedPreferences.Editor editor = auth.edit();
+        editor.putBoolean(SPreferences.getKeyIsAuth(), true);
+        editor.putString(SPreferences.getKeyFullname(), fullname);
+        editor.putLong(SPreferences.getKeyFriendsCount(), friendsCount);
         editor.apply();
     }
 

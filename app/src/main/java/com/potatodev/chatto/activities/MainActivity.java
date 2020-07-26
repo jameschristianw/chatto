@@ -118,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
                 if (snapshot.exists()){
                     final String input = edtPassword.getText().toString();
                     final String username = edtUsername.getText().toString();
-                    final String name = edtName.getText().toString();
                     String pass = (String) snapshot.get("currentPassword");
 
                     if (input.equals(pass)) { // Correct password
@@ -127,20 +126,16 @@ public class MainActivity extends AppCompatActivity {
                         firestore.collection("users").document(username).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                if (documentSnapshot.exists()){
-                                    setSharedPref(username, password);
+                                setSharedPref(username, password);
 
+                                if (documentSnapshot.exists()){
                                     showToast("Welcome back!", Toast.LENGTH_LONG);
                                     startActivity(new Intent(MainActivity.this, StartActivity.class));
-                                    finish();
                                 } else {
-                                    Intent intent = new Intent(MainActivity.this, CreateAccountActivity.class);
-                                    intent.putExtra(SPreferences.getKeyUsername(), username);
-                                    intent.putExtra(SPreferences.getKeyPass(), password);
-
-                                    startActivity(intent);
-                                    finish();
+                                    startActivity(new Intent(MainActivity.this, CreateAccountActivity.class));
                                 }
+
+                                finish();
                             }
                         });
                     } else { // Wrong password
@@ -173,6 +168,17 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return true;
         }
+    }
+
+    public void setSharedPref(String username, String password, String name, long friendsCount){
+        SharedPreferences auth = getSharedPreferences(SPreferences.getPreferenceFilename(), SPreferences.getPreferenceMode());
+        SharedPreferences.Editor editor = auth.edit();
+        editor.putBoolean(SPreferences.getKeyIsAuth(), true);
+        editor.putString(SPreferences.getKeyPass(), password);
+        editor.putString(SPreferences.getKeyUsername(), username);
+        editor.putString(SPreferences.getKeyFullname(), name);
+        editor.putLong(SPreferences.getKeyFriendsCount(), friendsCount);
+        editor.apply();
     }
 
     public void setSharedPref(String username, String password){

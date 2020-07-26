@@ -1,6 +1,7 @@
 package com.potatodev.chatto.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,8 +37,13 @@ public class StartActivity extends AppCompatActivity {
     RecyclerView rvFriendList;
 
     SharedPreferences preferences;
+    SharedPreferences.Editor editor;
+
     String displayName;
+    long friendsCount;
     Context context;
+
+    private static final int REQUEST_ADD = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +54,38 @@ public class StartActivity extends AppCompatActivity {
 
         initializeData();
         initializeViews();
+    }
+
+    public void initializeData(){
+        preferences = getSharedPreferences(SPreferences.getPreferenceFilename(), SPreferences.getPreferenceMode());
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        firestore
+                .collection("users")
+                .document(preferences.getString(SPreferences.getKeyUsername(), ""))
+                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                friendsCount = (long) documentSnapshot.get("friendsCount");
+                displayName = (String) documentSnapshot.get("name");
+                tvStartName.setText(displayName);
+                setDataToSharedPreferences();
+
+                List<Map<String, String >> friends = (List<Map<String, String>>) documentSnapshot.get("contacts");
+                if (friends == null || friends.isEmpty()) {
+                    Log.d("StartActivity", "You have no friends");
+                    tvEmptyList.setVisibility(View.VISIBLE);
+                    rvFriendList.setVisibility(View.GONE);
+                } else {
+                    tvEmptyList.setVisibility(View.GONE);
+                    rvFriendList.setVisibility(View.VISIBLE);
+
+                    rvFriendList.setLayoutManager(new LinearLayoutManager(context));
+                    FriendListAdapter adapter = new FriendListAdapter(friends);
+                    rvFriendList.setAdapter(adapter);
+                    Log.d("StartActivity", "You have a friend list");
+                }
+            }
+        });
     }
 
     // Function to initialize views in the activity and its logic if available
@@ -93,7 +131,9 @@ public class StartActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = auth.edit();
                 editor.putBoolean(SPreferences.getKeyIsAuth(), false);
                 editor.putString(SPreferences.getKeyPass(), "");
+                editor.putString(SPreferences.getKeyUsername(), "");
                 editor.putString(SPreferences.getKeyFullname(), "");
+                editor.putLong(SPreferences.getKeyFriendsCount(), 0);
                 editor.apply();
 
                 startActivity(new Intent(StartActivity.this, SplashScreenActivity.class));
@@ -102,7 +142,7 @@ public class StartActivity extends AppCompatActivity {
                 return true;
 
             case R.id.menuAddFriend:
-                startActivity(new Intent(StartActivity.this, AddFriendActivity.class));
+                startActivityForResult(new Intent(StartActivity.this, AddFriendActivity.class), REQUEST_ADD);
                 return true;
 
             case R.id.menuExit:
@@ -114,34 +154,20 @@ public class StartActivity extends AppCompatActivity {
         }
     }
 
-    public void initializeData(){
-        preferences = getSharedPreferences(SPreferences.getPreferenceFilename(), SPreferences.getPreferenceMode());
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        firestore
-                .collection("users")
-                .document(preferences.getString(SPreferences.getKeyUsername(), ""))
-                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                displayName = (String) documentSnapshot.get("name");
-                tvStartName.setText(displayName);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-                List<Map<String, String >> friends = (List<Map<String, String>>) documentSnapshot.get("contact");
-                if (friends == null || friends.isEmpty()) {
-                    Log.d("StartActivity", "You have no friends");
-                    tvEmptyList.setVisibility(View.VISIBLE);
-                    rvFriendList.setVisibility(View.GONE);
-                } else {
-                    tvEmptyList.setVisibility(View.GONE);
-                    rvFriendList.setVisibility(View.VISIBLE);
+        if (resultCode == RESULT_OK) {
+            initializeData();
+        }
+    }
 
-                    rvFriendList.setLayoutManager(new LinearLayoutManager(context));
-                    FriendListAdapter adapter = new FriendListAdapter(friends);
-                    rvFriendList.setAdapter(adapter);
-                    Log.d("StartActivity", "You have a friend list");
-                }
-            }
-        });
+    public void setDataToSharedPreferences() {
+        editor = preferences.edit();
+        editor.putLong(SPreferences.getKeyFriendsCount(), friendsCount);
+        editor.putString(SPreferences.getKeyFullname(), displayName);
+        editor.apply();
     }
 
     public void showToast(String message, int duration){
