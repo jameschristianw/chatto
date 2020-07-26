@@ -137,53 +137,13 @@ public class AddFriendActivity extends AppCompatActivity {
                 newLine.put("name", resultName);
                 newLine.put("id", resultUsername);
                 updateContacts(true, myFriendsCount, newLine, myUsername);
-//                if (myFriendsCount == 0){
-//                    Log.d("AddFriendActivity", "No friends");
-//                    List<HashMap<String, String>> newContact = new ArrayList<>();
-//                    newContact.add(newLine);
-//
-//                    HashMap<String, List> contact = new HashMap<>();
-//                    contact.put("contacts", newContact);
-//
-//                    newFriend = contact;
-//
-//                    firestore.collection("users").document(myUsername).set(contact, SetOptions.merge());
-//                } else {
-//                    Log.d("AddFriendActivity", "Friends = " + targetFriendsCount);
-//                    newFriend = newLine;
-//                    firestore.collection("users").document(myUsername).update("contacts", FieldValue.arrayUnion(newFriend));
-//                }
-//
-//                firestore.collection("users").document(myUsername).update("friendsCount", FieldValue.increment(1));
-//                editor.putLong(SPreferences.getKeyFriendsCount(), myFriendsCount + 1);
-//                editor.apply();
 
+                // Adding you to target friend list
                 HashMap<String, String> newLineTarget = new HashMap<>();
                 newLineTarget.put("chatid", chatId);
                 newLineTarget.put("name", myName);
                 newLineTarget.put("id", myUsername);
                 updateContacts(false, targetFriendsCount, newLineTarget, resultUsername);
-
-                // Adding you to target friend list
-//                HashMap<String, String> newLineTarget = new HashMap<>();
-//                newLineTarget.put("chatid", chatId);
-//                newLineTarget.put("name", yourName);
-//                newLineTarget.put("id", yourUsername);
-//                if (targetFriendsCount == 0){
-//                    Log.d("AddFriendActivity", "No friends");
-//                    List<HashMap<String, String>> newContact = new ArrayList<>();
-//                    newContact.add(newLineTarget);
-//
-//                    HashMap<String, List> contact = new HashMap<>();
-//                    contact.put("contact", newContact);
-//
-//                    newFriend = contact;
-//                } else {
-//                    Log.d("AddFriendActivity", "Friends = " + targetFriendsCount);
-//                    newFriend = newLineTarget;
-//                }
-//                firestore.collection("users").document(resultUsername).set(newFriend, SetOptions.merge());
-//                firestore.collection("users").document(resultUsername).update("friendsCount", FieldValue.increment(1));
 
                 // Finishing the activity
                 setResult(RESULT_OK);
