@@ -56,7 +56,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             // Page designation for each authentication result
-                            if (isAuth || password.equals(currentPass)){
+                            if (isAuth && password.equals(currentPass)){
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
